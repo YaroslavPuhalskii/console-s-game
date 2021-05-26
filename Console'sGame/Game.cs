@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RLNET;
+using Console_sGame;
+using Console_sGame.Core;
 
 namespace Console_sGame
 {
-    static class Game
-    {
+    public static class Game
+    {        
         private static readonly int _screenWidth = 100;
         private static readonly int _screenHeight = 70;
 
@@ -24,9 +26,9 @@ namespace Console_sGame
         private static readonly int _statHeight = 70;
         private static RLConsole _statConsole;
 
-        private static readonly int _invenrotyWidth = 80;
+        private static readonly int _inventoryWidth = 80;
         private static readonly int _inventoryHeight = 11;
-        private static RLConsole _inventorConsole;
+        private static RLConsole _inventoryConsole;
 
         private static RLRootConsole _rootConsole;
 
@@ -39,31 +41,35 @@ namespace Console_sGame
             _mapConsole = new RLConsole(_mapWidth, _mapHeight);
             _messageConsole = new RLConsole(_messageWidth, _messageHeight);
             _statConsole = new RLConsole(_statWidth, _statHeight);
-            _inventorConsole = new RLConsole(_invenrotyWidth, _inventoryHeight);
+            _inventoryConsole = new RLConsole(_inventoryWidth, _inventoryHeight);
 
             _rootConsole.Update += OnRootConsoleUpdate;
             _rootConsole.Render += OnRootConsoleRender;
             _rootConsole.Run();
         }
-
+        
+        
         private static void OnRootConsoleUpdate(object sender, UpdateEventArgs e)
         {
-            _mapConsole.SetBackColor(0, 0, _mapWidth, _mapHeight, RLColor.Black);
-            _mapConsole.Print(1, 1, "Map", RLColor.White);
-            _messageConsole.SetBackColor(0, 0, _messageWidth, _messageHeight, RLColor.Black);
-            _messageConsole.Print(1, 1, "Message", RLColor.White);
-            _statConsole.SetBackColor(0, 0, _statWidth, _statHeight, RLColor.Black);
-            _statConsole.Print(1, 1, "Stats", RLColor.White);
-            _inventorConsole.SetBackColor(0, 0, _invenrotyWidth, _inventoryHeight, RLColor.Black);
-            _inventorConsole.Print(1, 1, "Inventory", RLColor.White);
+            _mapConsole.SetBackColor(0, 0, _mapWidth, _mapHeight, Colors.FloorBackground);
+            _mapConsole.Print(1, 1, "Map", Colors.TextHeading);
+
+            _messageConsole.SetBackColor(0, 0, _messageWidth, _messageHeight, Swatch.DbDeepWater);
+            _messageConsole.Print(1, 1, "Message", Colors.TextHeading);
+
+            _statConsole.SetBackColor(0, 0, _statWidth, _statHeight, Swatch.DbOldStone);
+            _statConsole.Print(1, 1, "Stats", Colors.TextHeading);
+
+            _inventoryConsole.SetBackColor(0, 0, _inventoryWidth, _inventoryHeight, Swatch.DbWood);
+            _inventoryConsole.Print(1, 1, "Inventory", Colors.TextHeading);
         }
 
         private static void OnRootConsoleRender(object sender, UpdateEventArgs e)
         {
             RLConsole.Blit(_mapConsole, 0, 0, _mapWidth, _mapHeight, _rootConsole, 0, _inventoryHeight);
-            RLConsole.Blit(_messageConsole, 0, 0, _messageWidth, _messageHeight, _rootConsole, _mapWidth, 0);
-            RLConsole.Blit(_statConsole, 0, 0, _statWidth, _statHeight, _rootConsole, 0, _screenHeight - _inventoryHeight);
-            RLConsole.Blit(_inventorConsole, 0, 0, _invenrotyWidth, _inventoryHeight, _rootConsole, 0, 0);
+            RLConsole.Blit(_messageConsole, 0, 0, _messageWidth, _messageHeight, _rootConsole, 0, _screenHeight - _messageHeight);
+            RLConsole.Blit(_statConsole, 0, 0, _statWidth, _statHeight, _rootConsole, _mapWidth, 0);
+            RLConsole.Blit(_inventoryConsole, 0, 0, _inventoryWidth, _inventoryHeight, _rootConsole, 0, 0);
             _rootConsole.Draw();
         }
     }
