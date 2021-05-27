@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using RLNET;
 using Console_sGame;
 using Console_sGame.Core;
+using Console_sGame.Systems;
 
 namespace Console_sGame
 {
     public static class Game
     {        
+        public static DungeonMap DungeonMap { get; private set; }
+
         private static readonly int _screenWidth = 100;
         private static readonly int _screenHeight = 70;
 
@@ -43,6 +46,9 @@ namespace Console_sGame
             _statConsole = new RLConsole(_statWidth, _statHeight);
             _inventoryConsole = new RLConsole(_inventoryWidth, _inventoryHeight);
 
+            MapGenerator mapGenerator = new MapGenerator(_mapWidth, _mapHeight);
+            DungeonMap = mapGenerator.CreatMap();
+
             _rootConsole.Update += OnRootConsoleUpdate;
             _rootConsole.Render += OnRootConsoleRender;
             _rootConsole.Run();
@@ -66,6 +72,8 @@ namespace Console_sGame
 
         private static void OnRootConsoleRender(object sender, UpdateEventArgs e)
         {
+            DungeonMap.Draw(_mapConsole);
+
             RLConsole.Blit(_mapConsole, 0, 0, _mapWidth, _mapHeight, _rootConsole, 0, _inventoryHeight);
             RLConsole.Blit(_messageConsole, 0, 0, _messageWidth, _messageHeight, _rootConsole, 0, _screenHeight - _messageHeight);
             RLConsole.Blit(_statConsole, 0, 0, _statWidth, _statHeight, _rootConsole, _mapWidth, 0);

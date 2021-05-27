@@ -7,7 +7,7 @@ using RLNET;
 
 namespace Console_sGame.Core
 {
-    public class Colors
+    public static class Colors
     {
         public static RLColor FloorBackground = RLColor.Black;
         public static RLColor Floor = Swatch.AlternateDarkest;
