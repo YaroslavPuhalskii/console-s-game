@@ -14,6 +14,6 @@ namespace Console_sGame.Interfaces
         char Symbol { get; set; }
         int X { get; set; }
         int Y { get; set; }
-        void Draw(RLColor Color, IMap map);
+        void Draw(RLConsole conosle, IMap map);
     }
 }
